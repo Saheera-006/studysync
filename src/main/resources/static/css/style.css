@@ -1,0 +1,384 @@
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    background: #F4F4F6;
+    color: #1A1A2E;
+    min-height: 100vh;
+}
+
+/* ── TOPBAR ────────────────────────────────── */
+.topbar {
+    background: #fff;
+    border-bottom: 1px solid #E5E5EA;
+    padding: 12px 24px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.05);
+}
+
+.app-name {
+    font-size: 16px;
+    font-weight: 600;
+    color: #1A1A2E;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.logo {
+    width: 28px; height: 28px;
+    border-radius: 8px;
+    background: #7F77DD;
+    display: flex; align-items: center; justify-content: center;
+}
+
+.logo svg { width: 14px; height: 14px; }
+
+.countdown-pill {
+    font-size: 12px;
+    background: #FAEEDA;
+    color: #854F0B;
+    border-radius: 20px;
+    padding: 4px 14px;
+    font-weight: 600;
+}
+
+/* ── LAYOUT ────────────────────────────────── */
+.layout {
+    display: grid;
+    grid-template-columns: 230px 1fr;
+    min-height: calc(100vh - 53px);
+}
+
+/* ── SIDEBAR ───────────────────────────────── */
+.sidebar {
+    background: #fff;
+    border-right: 1px solid #E5E5EA;
+    padding: 16px 0;
+    display: flex;
+    flex-direction: column;
+    position: sticky;
+    top: 53px;
+    height: calc(100vh - 53px);
+    overflow-y: auto;
+}
+
+.slabel {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    color: #8E8E93;
+    padding: 0 16px;
+    margin-bottom: 8px;
+}
+
+.subj-list {
+    flex: 1;
+    padding: 0 10px;
+    overflow-y: auto;
+}
+
+.empty-hint {
+    font-size: 12px;
+    color: #8E8E93;
+    padding: 10px;
+    text-align: center;
+}
+
+.subj-card {
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+    padding: 9px 10px;
+    border-radius: 10px;
+    margin-bottom: 6px;
+    cursor: pointer;
+    border: 1.5px solid transparent;
+    transition: all 0.15s;
+    background: #F4F4F6;
+}
+
+.subj-card:hover { background: #EEEDFE; border-color: #AFA9EC; }
+.subj-card.selected { background: #EEEDFE; border-color: #7F77DD; }
+
+.sdot {
+    width: 10px; height: 10px;
+    border-radius: 50%;
+    flex-shrink: 0;
+    margin-top: 3px;
+}
+
+.sinfo { flex: 1; min-width: 0; }
+
+.sname {
+    font-size: 13px;
+    font-weight: 500;
+    color: #1A1A2E;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.sdate { font-size: 11px; color: #8E8E93; margin-top: 2px; }
+
+.sremove {
+    background: none; border: none;
+    cursor: pointer; color: #C7C7CC;
+    font-size: 16px; line-height: 1;
+    padding: 0 2px; flex-shrink: 0;
+    transition: color 0.15s;
+}
+.sremove:hover { color: #E24B4A; }
+
+/* ── ADD FORM ──────────────────────────────── */
+.add-form {
+    padding: 12px 10px 6px;
+    border-top: 1px solid #E5E5EA;
+    margin-top: 8px;
+}
+
+.add-form input {
+    width: 100%;
+    font-size: 13px;
+    padding: 8px 11px;
+    border-radius: 8px;
+    border: 1.5px solid #E5E5EA;
+    background: #F4F4F6;
+    color: #1A1A2E;
+    font-family: inherit;
+    margin-bottom: 7px;
+    outline: none;
+    transition: border-color 0.15s;
+}
+
+.add-form input:focus { border-color: #7F77DD; background: #fff; }
+.add-form input::placeholder { color: #C7C7CC; }
+
+.add-btn {
+    width: 100%;
+    background: #7F77DD;
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    padding: 9px;
+    font-size: 13px;
+    font-family: inherit;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.15s;
+}
+.add-btn:hover { background: #534AB7; }
+
+/* ── MAIN ──────────────────────────────────── */
+.main {
+    padding: 20px 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+/* ── STATS ─────────────────────────────────── */
+.stats-row {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+}
+
+.stat-card {
+    background: #fff;
+    border: 1px solid #E5E5EA;
+    border-radius: 12px;
+    padding: 14px 16px;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.04);
+}
+
+.stat-val {
+    font-size: 26px;
+    font-weight: 700;
+    color: #1A1A2E;
+    line-height: 1;
+}
+
+.stat-lbl {
+    font-size: 11px;
+    color: #8E8E93;
+    margin-top: 5px;
+    font-weight: 500;
+}
+
+/* ── PANEL ─────────────────────────────────── */
+.panel {
+    background: #fff;
+    border: 1px solid #E5E5EA;
+    border-radius: 12px;
+    padding: 16px;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.04);
+}
+
+.panel-hdr {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 14px;
+}
+
+.panel-title {
+    font-size: 14px;
+    font-weight: 600;
+    color: #1A1A2E;
+}
+
+.no-sel {
+    font-size: 13px;
+    color: #8E8E93;
+    text-align: center;
+    padding: 24px 0;
+}
+
+/* ── EXAM BADGE ────────────────────────────── */
+.exam-badge {
+    font-size: 11px;
+    border-radius: 20px;
+    padding: 3px 11px;
+    font-weight: 600;
+}
+.eb-soon { background: #FCEBEB; color: #791F1F; }
+.eb-ok   { background: #EAF3DE; color: #27500A; }
+.eb-past { background: #F4F4F6; color: #8E8E93; }
+
+/* ── TOPIC ROWS ────────────────────────────── */
+.topic-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 9px 0;
+    border-bottom: 1px solid #F4F4F6;
+}
+.topic-row:last-of-type { border-bottom: none; }
+
+.topic-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+
+.topic-name { font-size: 13px; color: #1A1A2E; flex: 1; }
+
+.topic-status {
+    font-size: 11px;
+    border-radius: 20px;
+    padding: 4px 11px;
+    font-weight: 600;
+    cursor: pointer;
+    border: none;
+    font-family: inherit;
+    transition: opacity 0.15s;
+}
+.topic-status:hover { opacity: 0.8; }
+.ts-pending { background: #FAEEDA; color: #854F0B; }
+.ts-today   { background: #EEEDFE; color: #3C3489; }
+.ts-done    { background: #EAF3DE; color: #27500A; }
+
+.topic-remove {
+    background: none; border: none;
+    cursor: pointer; color: #C7C7CC;
+    font-size: 16px; line-height: 1;
+    padding: 0 2px;
+    transition: color 0.15s;
+}
+.topic-remove:hover { color: #E24B4A; }
+
+/* ── TOPIC ADD ROW ─────────────────────────── */
+.topic-add {
+    display: flex;
+    gap: 8px;
+    margin-top: 12px;
+}
+
+.topic-add input {
+    flex: 1;
+    font-size: 13px;
+    padding: 8px 11px;
+    border-radius: 8px;
+    border: 1.5px solid #E5E5EA;
+    background: #F4F4F6;
+    color: #1A1A2E;
+    font-family: inherit;
+    outline: none;
+    transition: border-color 0.15s;
+}
+.topic-add input:focus { border-color: #7F77DD; background: #fff; }
+.topic-add input::placeholder { color: #C7C7CC; }
+
+.topic-add button {
+    background: #EEEDFE;
+    color: #3C3489;
+    border: none;
+    border-radius: 8px;
+    padding: 8px 16px;
+    font-size: 13px;
+    font-weight: 600;
+    font-family: inherit;
+    cursor: pointer;
+    transition: background 0.15s;
+}
+.topic-add button:hover { background: #CECBF6; }
+
+/* ── PROGRESS BARS ─────────────────────────── */
+.prog-item {
+    display: grid;
+    grid-template-columns: 90px 1fr 38px;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 12px;
+}
+.prog-item:last-child { margin-bottom: 0; }
+
+.prog-name {
+    font-size: 12px;
+    color: #3A3A4A;
+    font-weight: 500;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.prog-bg {
+    background: #F4F4F6;
+    border-radius: 6px;
+    height: 8px;
+    overflow: hidden;
+}
+
+.prog-fill {
+    height: 8px;
+    border-radius: 6px;
+    transition: width 0.4s ease;
+}
+
+.prog-pct {
+    font-size: 12px;
+    color: #8E8E93;
+    text-align: right;
+    font-weight: 600;
+}
+
+/* ── TOAST ─────────────────────────────────── */
+.toast {
+    position: fixed;
+    bottom: 24px;
+    right: 24px;
+    background: #1A1A2E;
+    color: #fff;
+    padding: 10px 18px;
+    border-radius: 10px;
+    font-size: 13px;
+    font-weight: 500;
+    opacity: 0;
+    transform: translateY(10px);
+    transition: all 0.3s;
+    pointer-events: none;
+    z-index: 999;
+}
+.toast.show { opacity: 1; transform: translateY(0); }

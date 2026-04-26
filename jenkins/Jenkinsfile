@@ -1,0 +1,93 @@
+pipeline {
+    agent any
+
+    environment {
+        SONAR_HOST = 'http://localhost:9000'
+        APP_VERSION = '1.0.0'
+        JAR_NAME = 'studysync-1.0.0.jar'
+    }
+
+    stages {
+
+        stage('Checkout') {
+            steps {
+                echo '>>> Pulling latest code from Git...'
+                checkout scm
+            }
+        }
+
+        stage('Static Code Analysis') {
+            steps {
+                echo '>>> Running SonarQube analysis...'
+                withSonarQubeEnv('SonarQube') {
+                    sh 'mvn sonar:sonar -Dsonar.projectKey=studysync -Dsonar.host.url=$SONAR_HOST'
+                }
+            }
+        }
+
+        stage('Quality Gate') {
+            steps {
+                echo '>>> Waiting for SonarQube quality gate...'
+                timeout(time: 2, unit: 'MINUTES') {
+                    waitForQualityGate abortPipeline: true
+                }
+            }
+        }
+
+        stage('Unit Tests + Coverage') {
+            steps {
+                echo '>>> Running JUnit tests with JaCoCo...'
+                sh 'mvn test'
+            }
+            post {
+                always {
+                    junit 'target/surefire-reports/*.xml'
+                    jacoco(
+                        execPattern: 'target/jacoco.exec',
+                        classPattern: 'target/classes',
+                        sourcePattern: 'src/main/java',
+                        minimumLineCoverage: '75'
+                    )
+                }
+            }
+        }
+
+        stage('Build') {
+            steps {
+                echo '>>> Building Spring Boot jar...'
+                sh 'mvn package -DskipTests'
+            }
+            post {
+                success {
+                    archiveArtifacts artifacts: "target/${JAR_NAME}", fingerprint: true
+                }
+            }
+        }
+
+        stage('Upload to Artifactory') {
+            steps {
+                echo '>>> Uploading artifact to Artifactory...'
+                sh '''
+                    curl -u admin:password -T target/${JAR_NAME} \
+                    "http://localhost:8081/artifactory/studysync-repo/${JAR_NAME}"
+                '''
+            }
+        }
+
+        stage('Deploy') {
+            steps {
+                echo '>>> Deploying StudySync web app...'
+                sh '''
+                    pkill -f studysync || true
+                    nohup java -jar target/${JAR_NAME} > app.log 2>&1 &
+                    echo "App running at http://localhost:8080"
+                '''
+            }
+        }
+    }
+
+    post {
+        success { echo '>>> SUCCESS — StudySync is live at http://localhost:8080' }
+        failure { echo '>>> FAILED — Check stage logs above' }
+    }
+}

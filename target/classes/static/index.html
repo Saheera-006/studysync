@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>StudySync</title>
+    <link rel="stylesheet" href="/css/style.css"/>
+</head>
+<body>
+
+<!-- TOP BAR -->
+<div class="topbar">
+    <div class="app-name">
+        <div class="logo">
+            <svg viewBox="0 0 12 12" fill="none">
+                <rect x="1" y="1" width="4" height="4" rx="1" fill="white"/>
+                <rect x="7" y="1" width="4" height="4" rx="1" fill="white" opacity="0.6"/>
+                <rect x="1" y="7" width="4" height="4" rx="1" fill="white" opacity="0.6"/>
+                <rect x="7" y="7" width="4" height="4" rx="1" fill="white" opacity="0.3"/>
+            </svg>
+        </div>
+        StudySync
+    </div>
+    <span class="countdown-pill" id="countdown-pill">Loading...</span>
+</div>
+
+<!-- LAYOUT -->
+<div class="layout">
+
+    <!-- SIDEBAR -->
+    <div class="sidebar">
+        <div class="slabel">SUBJECTS</div>
+        <div class="subj-list" id="subj-list">
+            <div class="empty-hint">No subjects yet</div>
+        </div>
+
+        <div class="add-form">
+            <div class="slabel">ADD SUBJECT</div>
+            <input id="inp-name" type="text" placeholder="Subject name (e.g. Maths)"/>
+            <input id="inp-date" type="date"/>
+            <button class="add-btn" onclick="addSubject()">+ Add Subject</button>
+        </div>
+    </div>
+
+    <!-- MAIN PANEL -->
+    <div class="main">
+
+        <!-- STATS -->
+        <div class="stats-row">
+            <div class="stat-card">
+                <div class="stat-val" id="stat-subjects">0</div>
+                <div class="stat-lbl">Subjects</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-val" id="stat-progress">0%</div>
+                <div class="stat-lbl">Overall Done</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-val" id="stat-days">—</div>
+                <div class="stat-lbl">Next Exam In</div>
+            </div>
+        </div>
+
+        <!-- TOPIC PANEL -->
+        <div class="panel" id="topic-panel">
+            <div class="panel-hdr">
+                <span class="panel-title" id="topic-panel-title">Select a subject</span>
+                <span id="exam-badge"></span>
+            </div>
+            <div id="topic-area">
+                <div class="no-sel">👈 Pick a subject from the left to manage its topics</div>
+            </div>
+        </div>
+
+        <!-- PROGRESS PANEL -->
+        <div class="panel">
+            <div class="panel-hdr">
+                <span class="panel-title">Progress Overview</span>
+            </div>
+            <div id="progress-area">
+                <div class="no-sel">Add subjects to see progress</div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<script src="/js/app.js"></script>
+</body>
+</html>
